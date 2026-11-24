@@ -1,0 +1,61 @@
+table_name,column_name,bigquery_data_type,key_role,is_nullable,business_definition
+dim_chart_of_accounts.csv,account_code,STRING,PRIMARY KEY,NO,Standardized 4-digit General Ledger natural account code (4000-8000)
+dim_chart_of_accounts.csv,account_name,STRING,ATTRIBUTE,NO,Official accounting ledger line title
+dim_chart_of_accounts.csv,statement_category,STRING,ATTRIBUTE,NO,"Income statement classification (Revenue, COGS, OPEX, Non-Operating, Tax)"
+dim_chart_of_accounts.csv,sub_category,STRING,ATTRIBUTE,NO,"Management reporting P&L roll-up group (Operating Revenue, Personnel & Benefits, etc.)"
+dim_chart_of_accounts.csv,normal_balance,STRING,ATTRIBUTE,NO,Accounting debit/credit convention (Debit or Credit)
+dim_chart_of_accounts.csv,is_ebitda_impacting,STRING,FLAG,NO,Indicates whether account is included above EBITDA (Yes/No)
+dim_chart_of_accounts.csv,description,STRING,METADATA,NO,Accounting policy definition for the natural account
+dim_cost_centers.csv,cost_center_id,STRING,PRIMARY KEY,NO,Unique organizational department/cost center identifier (CC-100 to CC-700)
+dim_cost_centers.csv,cost_center_name,STRING,ATTRIBUTE,NO,Department or business unit name
+dim_cost_centers.csv,legal_entity_code,STRING,ATTRIBUTE,NO,"Consolidation subsidiary code (UK_HQ, EU_SUB, US_SUB)"
+dim_cost_centers.csv,country,STRING,ATTRIBUTE,NO,Country of legal registration
+dim_cost_centers.csv,region,STRING,ATTRIBUTE,NO,"Operating geography (EMEA, Americas, Global)"
+dim_cost_centers.csv,function_group,STRING,ATTRIBUTE,NO,"Executive reporting pillar (Commercial, R&D / Product, Operations, Growth, Corporate G&A)"
+dim_cost_centers.csv,budget_owner,STRING,ATTRIBUTE,NO,Executive accountable for P&L variance and spend approval
+dim_vendors.csv,vendor_id,STRING,PRIMARY KEY,NO,Unique supplier master record ID (VND-001 to VND-012)
+dim_vendors.csv,vendor_name,STRING,ATTRIBUTE,NO,Legal supplier or counterparty name
+dim_vendors.csv,vendor_category,STRING,ATTRIBUTE,NO,"Procurement spend category (Infrastructure & Cloud, Audit & Advisory, Facilities, etc.)"
+dim_vendors.csv,country,STRING,ATTRIBUTE,NO,Vendor billing domicile country
+dim_vendors.csv,payment_terms,STRING,ATTRIBUTE,NO,"Contractual net payment terms (Due on Receipt, Net 15, Net 30, Net 45)"
+dim_vendors.csv,tier_status,STRING,ATTRIBUTE,NO,"Procurement vendor classification (Preferred, Standard)"
+dim_vendors.csv,compliance_risk_rating,STRING,ATTRIBUTE,NO,"Third-party risk management rating (Low, Medium, High)"
+dim_fx_rates.csv,fiscal_period,STRING,COMPOSITE PK,NO,Accounting period in YYYY-MM format (2025-01 to 2026-10)
+dim_fx_rates.csv,currency,STRING,COMPOSITE PK,NO,"ISO 4217 3-letter transaction currency code (GBP, USD, EUR)"
+dim_fx_rates.csv,gbp_conversion_rate,FLOAT64,METRIC,NO,Exchange rate multiplier to convert 1 unit of local currency into functional GBP
+dim_fx_rates.csv,rate_type,STRING,ATTRIBUTE,NO,"Treasury rate convention (Base Functional, Monthly Average)"
+fact_budget_forecast.csv,budget_id,STRING,PRIMARY KEY,NO,Unique composite budget line identifier
+fact_budget_forecast.csv,fiscal_period,STRING,FOREIGN KEY,NO,Accounting month (YYYY-MM) linking to dim_fx_rates.csv and fact_gl_transactions.csv
+fact_budget_forecast.csv,fiscal_quarter,STRING,ATTRIBUTE,NO,Fiscal quarter label (Q1-2025 to Q4-2026)
+fact_budget_forecast.csv,cost_center_id,STRING,FOREIGN KEY,NO,Links to dim_cost_centers.csv
+fact_budget_forecast.csv,account_code,STRING,FOREIGN KEY,NO,Links to dim_chart_of_accounts.csv
+fact_budget_forecast.csv,approved_budget_gbp,FLOAT64,METRIC,NO,Board-approved annual operating plan (AOP) target in GBP
+fact_budget_forecast.csv,latest_forecast_gbp,FLOAT64,METRIC,NO,Updated rolling quarterly forecast (QRF) estimate in GBP
+fact_gl_transactions.csv,journal_entry_id,STRING,PRIMARY KEY,NO,Unique ERP General Ledger journal line ID (JE-YYYY-NNNNNN)
+fact_gl_transactions.csv,posting_date,DATE,ATTRIBUTE,NO,Effective accounting posting date (YYYY-MM-DD)
+fact_gl_transactions.csv,fiscal_period,STRING,FOREIGN KEY,NO,Fiscal month (YYYY-MM)
+fact_gl_transactions.csv,fiscal_quarter,STRING,ATTRIBUTE,NO,Fiscal quarter (Q1-2025 to Q4-2026)
+fact_gl_transactions.csv,cost_center_id,STRING,FOREIGN KEY,NO,Departmental cost center (links to dim_cost_centers.csv)
+fact_gl_transactions.csv,account_code,STRING,FOREIGN KEY,NO,Natural GL account (links to dim_chart_of_accounts.csv)
+fact_gl_transactions.csv,vendor_id,STRING,FOREIGN KEY,YES,Supplier ID if entry originated from Accounts Payable (links to dim_vendors.csv; Null for payroll/revenue)
+fact_gl_transactions.csv,source_system,STRING,ATTRIBUTE,NO,"Originating ERP subledger (AR_BILLING_ENGINE, WORKDAY_PAYROLL, AP_VENDOR_INVOICE, etc.)"
+fact_gl_transactions.csv,transaction_currency,STRING,FOREIGN KEY,NO,"Original currency of transaction (GBP, USD, EUR)"
+fact_gl_transactions.csv,local_currency_amount,FLOAT64,METRIC,NO,Transaction amount in original local currency
+fact_gl_transactions.csv,fx_rate_to_gbp,FLOAT64,METRIC,NO,Applied exchange rate to functional GBP
+fact_gl_transactions.csv,functional_amount_gbp,FLOAT64,METRIC,NO,Consolidated reporting amount in GBP
+fact_gl_transactions.csv,is_manual_adjustment,STRING,FLAG,NO,SOX audit control flag indicating manual top-side journal entry (Yes/No)
+fact_gl_transactions.csv,audit_status,STRING,ATTRIBUTE,NO,"Internal control workflow status (Approved, Pending Audit Review)"
+fact_ap_invoices.csv,invoice_id,STRING,PRIMARY KEY,NO,Unique Accounts Payable vendor invoice number (INV-000001)
+fact_ap_invoices.csv,journal_entry_id,STRING,FOREIGN KEY,NO,Links directly to the corresponding GL expense posting in fact_gl_transactions.csv
+fact_ap_invoices.csv,vendor_id,STRING,FOREIGN KEY,NO,Links to dim_vendors.csv
+fact_ap_invoices.csv,cost_center_id,STRING,FOREIGN KEY,NO,Links to dim_cost_centers.csv
+fact_ap_invoices.csv,account_code,STRING,FOREIGN KEY,NO,Links to dim_chart_of_accounts.csv
+fact_ap_invoices.csv,invoice_date,DATE,ATTRIBUTE,NO,Supplier invoice issue date (YYYY-MM-DD)
+fact_ap_invoices.csv,due_date,DATE,ATTRIBUTE,NO,Contractual payment due date based on vendor terms
+fact_ap_invoices.csv,paid_date,DATE,ATTRIBUTE,YES,Actual cash disbursement date (Null if invoice is Open or Overdue)
+fact_ap_invoices.csv,payment_terms,STRING,ATTRIBUTE,NO,Invoice net payment terms
+fact_ap_invoices.csv,days_to_settle,INT64,METRIC,YES,Actual days elapsed from invoice_date to paid_date (used to compute DPO)
+fact_ap_invoices.csv,currency,STRING,ATTRIBUTE,NO,Invoice billing currency
+fact_ap_invoices.csv,invoice_amount_local,FLOAT64,METRIC,NO,Invoice gross amount in local currency
+fact_ap_invoices.csv,invoice_amount_gbp,FLOAT64,METRIC,NO,Invoice amount converted to functional GBP
+fact_ap_invoices.csv,payment_status,STRING,ATTRIBUTE,NO,"Settlement lifecycle state (Paid, Open - Approved, Overdue)"

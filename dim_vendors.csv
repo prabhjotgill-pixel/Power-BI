@@ -1,0 +1,13 @@
+vendor_id,vendor_name,vendor_category,country,payment_terms,tier_status,compliance_risk_rating
+VND-001,Equinix & Hyperscale Colocation Ltd,Infrastructure & Cloud,United Kingdom,Net 30,Preferred,Low
+VND-002,CloudCompute Services EMEA,Infrastructure & Cloud,Ireland,Net 30,Preferred,Low
+VND-003,Deloitte & Partners LLP,Audit & Advisory,United Kingdom,Net 45,Preferred,Low
+VND-004,Linklaters Corporate Counsel,Legal Services,United Kingdom,Net 30,Preferred,Low
+VND-005,Apex Digital Media Agency,Marketing & Events,United Kingdom,Net 30,Standard,Low
+VND-006,Canary Wharf Commercial Estates,Facilities & Rent,United Kingdom,Due on Receipt,Preferred,Low
+VND-007,Global Data Feeds Inc.,Data & API Licensing,United States,Net 30,Preferred,Medium
+VND-008,Bupa Corporate Healthcare UK,Employee Benefits,United Kingdom,Net 15,Preferred,Low
+VND-009,British Airways & Corporate Travel,Travel & Hospitality,United Kingdom,Net 15,Standard,Low
+VND-010,Snowflake & DevOps Tooling Corp,Software & SaaS,United States,Net 30,Preferred,Low
+VND-011,Rhein-Main Office Properties GmbH,Facilities & Rent,Germany,Net 15,Standard,Low
+VND-012,Manhattan Tech Workspace LLC,Facilities & Rent,United States,Net 15,Standard,Low

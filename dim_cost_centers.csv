@@ -1,0 +1,8 @@
+cost_center_id,cost_center_name,legal_entity_code,country,region,function_group,budget_owner
+CC-100,UK & Ireland Enterprise,UK_HQ,United Kingdom,EMEA,Commercial,VP EMEA Sales
+CC-200,DACH & Continental Europe,EU_SUB,Germany,EMEA,Commercial,VP Continental Europe
+CC-300,North America Commercial,US_SUB,United States,Americas,Commercial,SVP Americas
+CC-400,Cloud & Data Engineering,UK_HQ,United Kingdom,Global,R&D / Product,VP Engineering
+CC-500,Data Center & Infrastructure Ops,UK_HQ,United Kingdom,Global,Operations,Director of Infrastructure
+CC-600,Global Marketing & Brand,UK_HQ,United Kingdom,Global,Growth,Chief Marketing Officer
+CC-700,"Finance, Legal & People Ops",UK_HQ,United Kingdom,Global,Corporate G&A,Chief Financial Officer

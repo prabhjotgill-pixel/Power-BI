@@ -1,0 +1,19 @@
+account_code,account_name,statement_category,sub_category,normal_balance,is_ebitda_impacting,description
+4000,Enterprise SaaS Subscriptions,Revenue,Operating Revenue,Credit,Yes,Recurring License & Platform Fees
+4010,Cloud & Data Infrastructure Usage,Revenue,Operating Revenue,Credit,Yes,Metered Compute & API Consumption
+4020,Professional Services & Consulting,Revenue,Operating Revenue,Credit,Yes,Implementation & Advisory Services
+4090,Sales Discounts & Rebates,Revenue,Contra-Revenue,Debit,Yes,Contractual Volume Rebates & Credits
+5000,Cloud Hosting & Data Center Operations,COGS,Cost of Revenue,Debit,Yes,"Hyperscale Server, Cooling & Network Costs"
+5010,Customer Support & Delivery Engineering,COGS,Cost of Revenue,Debit,Yes,Direct Technical Support Payroll
+5020,Third-Party Data & API Licensing,COGS,Cost of Revenue,Debit,Yes,Upstream Vendor Royalty & Feed Costs
+6000,"Salaries, Wages & Payroll Taxes",OPEX,Personnel & Benefits,Debit,Yes,"Corporate G&A, R&D and Sales Compensation"
+6010,Employee Benefits & Pension Contributions,OPEX,Personnel & Benefits,Debit,Yes,"Healthcare, UK Auto-Enrolment & Perks"
+6100,Digital Marketing & Demand Generation,OPEX,Sales & Marketing,Debit,Yes,"Paid Search, Events & Brand Campaigns"
+6200,R&D Software & Engineering Tools,OPEX,Research & Development,Debit,Yes,"DevOps, AI Compute & SaaS Subscriptions"
+6300,"Facilities, Office Rent & Utilities",OPEX,General & Administrative,Debit,Yes,UK/EMEA Office Leases & Energy
+6400,"Legal, Audit & Professional Advisory",OPEX,General & Administrative,Debit,Yes,"External Counsel, Statutory Audit & Tax"
+6500,Corporate Travel & Client Entertainment,OPEX,Sales & Marketing,Debit,Yes,"Flights, Hotels & Client Workshops"
+7000,Depreciation & Amortization,Non-Operating,D&A,Debit,No,Server Hardware & Leasehold Amortization
+7100,Foreign Exchange Gain / (Loss),Non-Operating,FX & Treasury,Credit,No,Realized & Unrealized FX Revaluation
+7200,Interest Income on Treasury Reserves,Non-Operating,FX & Treasury,Credit,No,Money Market & Short-Term Gilts Yield
+8000,Corporate Income Tax Provision,Tax,Income Taxes,Debit,No,UK Corporation Tax & Deferred Tax
